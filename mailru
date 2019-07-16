@@ -1,0 +1,71 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import java.util.*;
+//        import org.openqa.selenium.* ;
+import java.io.* ;
+import java.lang.String;
+
+public class mailru {
+    public static void main(String[] args) {
+        // 0. Open a file to write a log
+        try {
+            FileWriter file = new FileWriter("log.txt");
+            BufferedWriter buffer = new BufferedWriter(file);
+
+            // 1.	wmail.ru   autorizing
+            WebDriver driver = new FirefoxDriver();
+            driver.get("https://mail.ru");
+            buffer.write("mail.ru is opened    " + java.time.LocalDateTime.now());
+            buffer.newLine();
+            System.out.println("mail.ru is opened     " + java.time.LocalDateTime.now());
+//<input id="mailbox:login" class="input i-no-right-radius i-width-100% mailbox__rwd-control" type="text" name="login" value="" tabindex="21" placeholder="Имя ящика">
+            WebElement Login_txt = driver.findElement(By.name("login"));
+            Login_txt.clear();
+            Login_txt.sendKeys("webmatveev");
+
+//<input id="mailbox:password" class="input mailbox__input mailbox__input_password mailbox__rwd-control" type="password" name="password" tabindex="23" placeholder="Пароль">
+            WebElement Passw_txt = driver.findElement(By.name("password"));
+            Passw_txt.clear();
+            Passw_txt.sendKeys("ha-ha-ha");
+
+            buffer.write("Login and Password are Entered    " + java.time.LocalDateTime.now());
+            buffer.newLine();
+            System.out.println("Login and Password are Entered     " + java.time.LocalDateTime.now());
+
+            // read every letter on the blog page (and return after reading)
+//<label id="mailbox:submit" class="btn btn_blue mailbox__control  mailbox__rwd-control" tabindex="25">Войти<input class="o-control" type="submit" value="Войти"></label>
+            WebElement MailInBtn = driver.findElement(By.id("mailbox:submit"));
+            MailInBtn.click();
+
+            buffer.write("Registration is finished    " + java.time.LocalDateTime.now());
+            buffer.newLine();
+            System.out.println("Registration is finished     " + java.time.LocalDateTime.now());
+
+//<div class="b-datalist__item__pic" style="background-image: url(&quot;https://filin.mail.ru/pic?user=webmatveev@mail.ru&amp;email=security@e.mail.ru&amp;trust=true&amp;sign=4a46a82c6d4a4629393050a3733bc3fa14436c23&amp;&amp;&amp;width=32&amp;height=32&amp;name=%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0%20Mail.Ru&amp;version=4&amp;build=7&quot;);"></div>
+            List<WebElement> Element = driver.findElements(By.className("b-datalist__item__pic"));
+            int Fin = Element.size();
+            buffer.write("Number of Elements " + Fin + " " + java.time.LocalDateTime.now());
+            buffer.newLine();
+            System.out.println("Number of Elements " + Fin + " " + java.time.LocalDateTime.now() + "\n");
+
+            int j = 0;
+            for (WebElement e : Element) {
+                e.click();
+                buffer.write(" View of the letter " + j +"   "+ java.time.LocalDateTime.now());
+                buffer.newLine();
+                System.out.println(" View of the letter " + j +"   "+ java.time.LocalDateTime.now() + "\n");
+                driver.navigate().back();
+                j++;
+            }
+             // finish the test, closing the log file
+            buffer.close();
+        }
+        catch (IOException e) {
+            System.out.println("Error with a log file");
+        }
+    }
+}
